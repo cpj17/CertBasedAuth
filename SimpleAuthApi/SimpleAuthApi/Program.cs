@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +12,7 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ConfigureHttpsDefaults(o =>
     {
         o.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-    });
-});
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ConfigureHttpsDefaults(https =>
-    {
-        https.SslProtocols =
+        o.SslProtocols =
             System.Security.Authentication.SslProtocols.Tls12 |
             System.Security.Authentication.SslProtocols.Tls13;
     });
